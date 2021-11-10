@@ -3,6 +3,10 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+ import { FontAwesome5 } from '@expo/vector-icons'; 
+
+import { Feather } from '@expo/vector-icons';
+
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -67,7 +71,7 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home',
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" size={24} color={color} />,
-          })}
+        })}
       />
 
       <BottomTab.Screen
@@ -76,7 +80,7 @@ function BottomTabNavigator() {
         options={{
           title: 'History',
 
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="view-list" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome5 name="receipt" size={24} color={color} />,
         }}
       />
 
