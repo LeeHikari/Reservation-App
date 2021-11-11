@@ -1,16 +1,19 @@
 import React from 'react';
-import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 
 export function Account(props: any) {
-    const {navigation} = props;
+    const { navigation } = props;
     const [name, setName] = React.useState('');
 
-
+    const handleLogout = () => {
+        props.history.push('/login');
+    }
 
     return (
         <View>
             <Text>Account</Text>
-            {/* <TextInput style={styles.input} value={name} onChangeText={setName} /> */}
+            Welcome User!<br /><br />
+            <input type="button" onClick={handleLogout} value="Logout" />
         </View>
     );
 }

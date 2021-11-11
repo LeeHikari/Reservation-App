@@ -10,6 +10,7 @@ export function Home(props: any) {
     return (
         <View>
             <Text>Home</Text>
+            <Text>Welcome to BeanScene!</Text>
             {/* <TextInput style={styles.input} value={name} onChangeText={setName} /> */}
         </View>
     );
