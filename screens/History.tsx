@@ -1,31 +1,45 @@
+import { booleanLiteral } from '@babel/types';
 import React from 'react';
-import {StyleSheet, Text, View, FlatList, Image, Linking, TouchableOpacity} from 'react-native';
+import { StyleSheet, FlatList, Linking, TouchableOpacity, Text} from 'react-native';
+
+import { View } from '../components/Themed';
 
 
 type HomeProps = {
     data: any[];
 }
 
+export function History({ data }: HomeProps) {;
 
 
-export function History({ data }: HomeProps) {
-    const [name, setName] = React.useState('');
+    function SplitDate(item : any, boolVal : boolean){
+        var splitObjs = item.startTime.split('T');
+        if(boolVal){
+            return splitObjs[0];
+        }
+        else{
+            return splitObjs[1];
+        }
+    }
 
- 
-
-    return (
-        <View style={styles.container}>
-        <FlatList
-            data={data}
-            renderItem={({ item }) => (
-                <View style={styles.row} >
-                  
-                    <Text style={styles.text}>{item.id}</Text>
-                    <Text style={styles.yearText}>({item.guests})</Text>
-                </View>
-            )}
-        />
-    </View>
+    return (     
+        <View style={styles.container} >
+            <View style={styles.row}>
+                <Text style={[styles.text, {flex: 2}]}>Name</Text>
+                <Text style={styles.text}>Date</Text>
+                <Text style={styles.text}>Time</Text>
+            </View>
+            <FlatList
+                data={data}
+                renderItem={({ item }) => (
+                    <TouchableOpacity style={styles.row} onPress={() => Linking.openURL(`http://localhost:19006/Home`)}>
+                        <Text style={[styles.text, {flex: 2}]}>{item.person.fullname}</Text>
+                        <Text style={styles.text}>{SplitDate(item, true) }</Text>
+                        <Text style={styles.text}>{SplitDate(item, false)}</Text>
+                    </TouchableOpacity>
+                )}
+            />
+        </View>
     );
 }
 
@@ -39,26 +53,17 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'center',
         borderWidth: 1,
         borderColor: 'darkblue',
     },
     text: {
         flex: 1,
-        fontSize: 20,
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     yearText: {
         marginLeft: 10,
         fontSize: 10,
     },
-    img: {
-        height: 80,
-        width: 80,
-        marginRight: 10,
-    },
 });
-
-
-// TextInput
-// style it
-// make it a controlled component (useState)

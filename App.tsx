@@ -5,24 +5,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import { GetReservations } from './services/reservations';
+import { GetReservations } from './services/reservations'
 
 export default function App() {
-  const [reservations, setReservations] = useState<any[]>([]);
 
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
-  function search() {
-    GetReservations.then(data=>{
-
-    })
-    setLoading(true);
-    Re().then(data => {
-        setMovies(data.Search);
-        setLoading(false);
-    });
-}
 
 
   if (!isLoadingComplete) {
@@ -30,8 +18,8 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <Navigation colorScheme={'dark'} />
+        <StatusBar style="auto"/>
       </SafeAreaProvider>
     );
   }

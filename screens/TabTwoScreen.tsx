@@ -1,32 +1,81 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState} from 'react';
+import { StyleSheet, Button, TextInput, TouchableOpacity} from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
+import { GetReservations, GetReservationsId } from '../services/reservations'
+import { History } from './History';
 
-export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
-    </View>
-  );
+
+export function TabTwoScreen() {;
+
+    const [reservations, setReservations] = useState<any[]>([]);
+    const [reservationId, setReservationId] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    function getReservations() {
+        setLoading(true);
+        if(reservationId != ""){
+            GetReservationsId(reservationId).then(data => {
+
+                let listRes = [];
+                listRes.push(data);
+                setReservations(listRes);
+                  setLoading(false);
+              });
+        }
+        else{
+            GetReservations().then(data => {                
+                setReservations(data);
+                  setLoading(false);
+            });
+        }
+    }
+
+    return (     
+        <View style={styles.container} >
+            <TouchableOpacity style={styles.btn} onPress={getReservations}>Refresh</TouchableOpacity>
+            <TextInput style={styles.input} placeholder="Search by Id" value={reservationId} onChangeText={setReservationId} />
+            <History data={reservations}/>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    container: {
+        padding: 15,
+        height: '100%'
+    },
+    text: {
+        flex: 1,
+        fontSize: 20,
+    },
+    yearText: {
+        marginLeft: 10,
+        fontSize: 10,
+    },
+    input: {
+      backgroundColor: '#fff',
+      padding: 5,
+      borderRadius: 8,
+      margin: '15px',
+      borderStyle: 'solid',
+      borderColor: 'grey',
+      borderWidth: 1,
+    },
+    btn: {
+      elevation: 8,
+      backgroundColor: "#2c80ec",
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      alignItems: 'center',
+      color: 'white',
+      fontWeight: 'bold'
+
+    },
+    img: {
+        height: 80,
+        width: 80,
+        marginRight: 10,
+    },
 });

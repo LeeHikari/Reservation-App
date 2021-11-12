@@ -3,108 +3,103 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
- import { FontAwesome5 } from '@expo/vector-icons'; 
-
-import { Feather } from '@expo/vector-icons';
-
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
-import { Home, History, Account } from '../screens';
-
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
-}
-
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={Home} />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
-}
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="Home"
-        component={Home}
-        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" size={24} color={color} />,
-        })}
-      />
-
-      <BottomTab.Screen
-        name="History"
-        component={History}
-        options={{
-          title: 'History',
-
-          tabBarIcon: ({ color }) => <FontAwesome5 name="receipt" size={24} color={color} />,
-        }}
-      />
-
-      <BottomTab.Screen
-        name="Account"
-        component={Account}
-        options={{
-          title: 'Account',
-
-
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" size={24} color={color} />,
-        }}
-      />
-
-    </BottomTab.Navigator>
-  );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+ import { FontAwesome } from '@expo/vector-icons';
+ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+ import { createNativeStackNavigator } from '@react-navigation/native-stack';
+ import React, { useState } from 'react';
+ import { ColorSchemeName, Pressable } from 'react-native';
+ 
+ import Colors from '../constants/Colors';
+ import useColorScheme from '../hooks/useColorScheme';
+ import NotFoundScreen from '../screens/NotFoundScreen';
+ import TabOneScreen from '../screens/TabOneScreen';
+ import {TabTwoScreen} from '../screens/TabTwoScreen';
+ import TabThreeScreen from '../screens/TabThreeScreen';
+ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+ import LinkingConfiguration from './LinkingConfiguration';
+ import { AntDesign } from '@expo/vector-icons';
+ 
+ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+   return (
+     <NavigationContainer
+       linking={LinkingConfiguration}
+       theme={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
+         
+       <RootNavigator />
+     </NavigationContainer>
+   );
+ }
+ 
+ const Stack = createNativeStackNavigator<RootStackParamList>();
+ 
+ function RootNavigator() {
+ 
+   return (
+     <Stack.Navigator>
+       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+     </Stack.Navigator>
+   );
+ }
+ 
+ /**
+  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
+  * https://reactnavigation.org/docs/bottom-tab-navigator
+  */
+ const BottomTab = createBottomTabNavigator<RootTabParamList>();
+ 
+ function BottomTabNavigator() {
+   const colorScheme = useColorScheme();
+ 
+   return (
+     <BottomTab.Navigator
+       initialRouteName="TabOne"
+       screenOptions={{
+         tabBarActiveTintColor: Colors[colorScheme].tint,
+         tabBarStyle: { backgroundColor: '#b48c6c', borderTopLeftRadius: 32, borderTopRightRadius: 32 },
+       }}>
+       <BottomTab.Screen
+         name="TabOne"
+         component={TabOneScreen}
+         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+           title: 'Home',
+           tabBarIcon: () => <AntDesign name="home" size={24} color='white' />,
+           tabBarLabelStyle: {color: 'white'},
+           headerStyle: {backgroundColor: '#b48c6c', borderBottomLeftRadius: 16, borderBottomRightRadius: 64},
+           headerTitleStyle: {color: 'white'},
+         })}
+       />
+       <BottomTab.Screen
+         name="TabTwo"
+         component={TabTwoScreen}
+         options={{
+           title: 'History',
+           tabBarIcon: () => <AntDesign name="book" size={24} color='white'/>,
+           tabBarLabelStyle: {color: 'white'},
+           headerStyle: {backgroundColor: '#b48c6c', borderBottomLeftRadius: 16, borderBottomRightRadius: 64},
+           headerTitleStyle: {color: 'white'}
+         }}
+       />
+       <BottomTab.Screen
+         name="TabThree"
+         component={TabThreeScreen}
+         options={{
+           title: 'Account',
+           tabBarIcon: () => <AntDesign name="user" size={24} color='white'/>,
+           tabBarLabelStyle: {color: 'white'},
+           headerStyle: {backgroundColor: '#b48c6c', borderBottomLeftRadius: 16, borderBottomRightRadius: 64},
+           headerTitleStyle: {color: 'white'}
+         }}
+       />
+     </BottomTab.Navigator>
+     
+   );
+ 
+       }
+       
+ function TabBarIcon(props: {
+   name: React.ComponentProps<typeof FontAwesome>['name'];
+ }) {
+   return <FontAwesome size={30} style={{ marginBottom: -3}} {...props} />;
+ }
