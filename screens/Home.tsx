@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, Image } from 'react-native';
 
 export function Home(props: any) {
-    const {navigation} = props;
+    const { navigation } = props;
     const [name, setName] = React.useState('');
 
 
@@ -11,7 +11,6 @@ export function Home(props: any) {
         <View>
             <Text>Home</Text>
             <Text>Welcome to BeanScene!</Text>
-            {/* <TextInput style={styles.input} value={name} onChangeText={setName} /> */}
         </View>
     );
 }
